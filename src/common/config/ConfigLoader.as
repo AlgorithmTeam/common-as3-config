@@ -19,13 +19,16 @@ package common.config
         private var loader:PQLoader = PQLoader.getInstance( "config" );
         private var configFileCache:Dictionary = new Dictionary;
         private var configFileNameList:Array = [];
+        private var configClassCache:Dictionary = new Dictionary();
+        private var configLoadedBack:Function;
 
         public function ConfigLoader()
         {
         }
 
-        public function start( configFilePath:String ):void
+        public function start( configFilePath:String, callBack:Function = null ):void
         {
+            configLoadedBack = callBack;
             loader.addItem( configFilePath, XMLItem ).complete( function ():void
             {
                 parseConfigFile( XMLItem( loader.getItem( configFilePath ) ).xml );
@@ -34,6 +37,11 @@ package common.config
                 loadXmlListItem();
             } );
             loader.start();
+        }
+
+        public function getConfigClass():Dictionary
+        {
+            return configClassCache;
         }
 
         private function parseConfigFile( xml:XML ):void
@@ -74,7 +82,8 @@ package common.config
                             config.parse( xml, configCls );
                             System.disposeXML( xml );
                         }
-//                        injector.mapValue( cls, config );
+
+                        configClassCache[cls] = config;
                     }
                 }
 
@@ -84,6 +93,7 @@ package common.config
                 }
                 else
                 {
+                    configLoadedBack && configLoadedBack();
                     loader.dispose();
                 }
 
