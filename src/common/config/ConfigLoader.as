@@ -6,6 +6,7 @@
 package common.config
 {
     import common.config.api.IConfig;
+    import common.loader.IPQLoader;
     import common.loader.PQLoader;
     import common.loader.item.XMLItem;
 
@@ -16,7 +17,7 @@ package common.config
     public class ConfigLoader
     {
 
-        private var loader:PQLoader = PQLoader.getInstance( "config" );
+        private var loader:IPQLoader = PQLoader.getInstance( "config" );
         private var configFileCache:Dictionary = new Dictionary;
         private var configFileNameList:Array = [];
         private var configClassCache:Dictionary = new Dictionary();

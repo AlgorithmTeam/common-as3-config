@@ -1,6 +1,7 @@
 package common.config
 {
     import common.config.api.IConfig;
+    import common.config.utility.XMLMapper;
 
     import flash.utils.Dictionary;
 
@@ -12,7 +13,7 @@ package common.config
         {
         }
 
-        public function parse( data:XML, cls:Class ):void
+        public function parse( data:XML, cls:Class = null ):void
         {
             var dataList:XMLList = data.elements( data.children()[0].name() );
             var len:uint = dataList.length();
@@ -20,13 +21,8 @@ package common.config
             {
                 var node:XML = XML( dataList[i] );
                 var configInfo:BaseConfigInfo = new cls;
-                configInfo.fillXml( node );
+                XMLMapper.map(node, configInfo);
                 m_ConfigInfoList[configInfo.getKey()] = configInfo;
-                /*if (configInfo is SerializedInfo)
-                 {
-                 var reflector:ReflectUtility = ReflectUtility.getReflector( cls );
-                 (configInfo as SerializedInfo).mapper = reflector.getMapperWithMetadata( "Serializes", "id", true );
-                 }*/
             }
         }
 

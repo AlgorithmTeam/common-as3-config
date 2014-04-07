@@ -8,6 +8,7 @@
  */
 package common.config
 {
+    import common.config.utility.XMLMapper;
     import common.data.structure.HashMap;
     import common.data.structure.linkList.DoubleLinkList;
     import common.data.structure.linkList.LinkNode;
@@ -37,7 +38,8 @@ package common.config
             {
                 var node:XML = XML( dataList[i] );
                 var configInfo:BaseConfigInfo = new cls;
-                configInfo.fillXml( node );
+                XMLMapper.map( node, configInfo );
+//                configInfo.fillXml( node );
                 toStructureFunction( configInfo, ds );
             }
         }
@@ -54,7 +56,7 @@ package common.config
             array.push( configInfo );
         }
 
-        private function toHashMap( configInfo:BaseConfigInfo, hashMap:HashMap ):void
+        protected function toHashMap( configInfo:BaseConfigInfo, hashMap:HashMap ):void
         {
             hashMap.put( configInfo.getKey(), configInfo );
         }

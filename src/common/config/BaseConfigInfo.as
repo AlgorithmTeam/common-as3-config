@@ -18,22 +18,6 @@ package common.config
         {
         }
 
-        /**
-         * xml赋值
-         * @param    obj
-         */
-        public function fillXml( xmlObj:XML ):void
-        {
-            if ( xmlObj == null ) return;
-            var len:int = xmlObj.attributes().length();
-            for ( var i:int = 0; i < len; i++ )
-            {
-                var propertyName:String = xmlObj.attributes()[i].name();
-                if ( !hasOwnProperty( propertyName ) ) continue;
-                this[propertyName] = xmlObj.attributes()[i];
-            }
-        }
-
         public function getKey():String
         {
             return String( id );
